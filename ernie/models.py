@@ -15,6 +15,7 @@ class Models:
     XLNetLargeCased = 'xlnet-large-cased'
 
     DistilBertBaseUncased = 'distilbert-base-uncased'
+    DistilBertBaseCased = 'distilbert-base-cased'
     DistilBertBaseMultilingualCased = 'distilbert-base-multilingual-cased'
 
     AlbertBaseCased = 'albert-base-v1'
