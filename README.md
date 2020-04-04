@@ -23,7 +23,9 @@
 # Installation
 > Ernie requires Python 3.6 or higher.
 ```bash
-pip install ernie
+pip install git+https://github.com/DakshMiglani/ernie.git
+# or
+pip install ernie-0.0.26b0-py3-none-any.whl
 ```
 <a href="https://colab.research.google.com/drive/10lmqZyAHFP_-x4LxIQxZCavYpPqcR28c"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg?style=flat-square"></a>
 
@@ -40,6 +42,22 @@ df = pd.DataFrame(tuples)
 classifier = SentenceClassifier(model_name=Models.BertBaseUncased, max_length=64, labels_no=2)
 classifier.load_dataset(df, validation_split=0.2)
 classifier.fine_tune(epochs=4, learning_rate=2e-5, training_batch_size=32, validation_batch_size=64)
+```
+
+## Fine Tuning with Kfolds
+```python
+from sklearn.model_selection import StratifiedKFold
+from ernie import SentenceClassifier, Models
+
+classifier = SentenceClassifier(model_name=Models.AlbertBaseCased2, max_length=64, labels_no=2)
+
+skf = StratifiedKFold(n_splits=4) # 4 splits
+
+for train_index, test_index in skf.split(X, Y):
+    X_train, X_test = X[train_index], X[test_index]
+    y_train, y_test = Y[train_index], Y[test_index]
+    classifier.load_dataset_for_kfold(dataframe=pd.DataFrame({'X': X_train, 'Y': y_train}), valid_df=pd.DataFrame({'X': X_test, 'Y': y_test}))
+    classifier.fine_tune(epochs=2, learning_rate=2e-5, training_batch_size=32, validation_batch_size=64)
 ```
 
 # Prediction
