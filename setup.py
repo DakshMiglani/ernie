@@ -26,7 +26,7 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     python_requires=">=3.6",
-    install_requires=['transformers==2.4.1',
+    install_requires=['transformers==2.7.0',
                       'scikit-learn>=0.22.1',
                       'pandas>=0.25.3',
                       'tensorflow>=2.1.0,!=2.2.0-rc0,!=2.2.0rc1',
