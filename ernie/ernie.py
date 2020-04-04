@@ -60,7 +60,7 @@ class SentenceClassifier:
         training_sentences = list(dataframe[dataframe.columns[0]])
         training_labels = dataframe[dataframe.columns[1]].values
         
-        validation_sentences, validation_labels = list(valid_df[valid_df.columns[0]])
+        validation_sentences = list(valid_df[valid_df.columns[0]])
         validation_labels = valid_df[valid_df.columns[1]].values
 
         self._training_features = get_features(self._tokenizer, training_sentences, training_labels)
