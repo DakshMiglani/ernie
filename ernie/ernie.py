@@ -52,6 +52,28 @@ class SentenceClassifier:
     def tokenizer(self):
         return self._tokenizer
 
+
+    def load_dataset_for_kfold(self, dataframe=None, valid_df=None):
+        if dataframe is None or valid_df is None:
+            raise ValueError
+
+        training_sentences = list(dataframe[dataframe.columns[0]])
+        training_labels = dataframe[dataframe.columns[1]].values
+        
+        validation_sentences, validation_labels = list(valid_df[valid_df.columns[0]])
+        validation_labels = valid_df[valid_df.columns[1]].values
+
+        self._training_features = get_features(self._tokenizer, training_sentences, training_labels)
+        self._training_size = len(training_sentences)
+
+        self._validation_features = get_features(self._tokenizer, validation_sentences, validation_labels)
+        self._validation_split = len(validation_sentences)
+
+        logging.info(f'training_size: {self._training_size}')
+        logging.info(f'validation_split: {self._validation_split}')
+
+        self._loaded_data = True
+    
     def load_dataset(self, dataframe=None, csv_path=None, validation_split=0.1):
         if dataframe is None and csv_path is None:
             raise ValueError
